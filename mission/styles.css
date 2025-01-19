@@ -1,3 +1,12 @@
+.dark {
+    background-color: #333;
+    color: white;
+}
+
+.dark h2 {
+    color: rgb(160, 212, 237);
+}
+
 .content {
     margin: auto;
     max-width: 600px;
