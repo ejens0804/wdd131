@@ -15,6 +15,11 @@ body {
     max-width: 700px;
 }
 
+nav {
+    display:flex;
+    justify-content: space-evenly;
+}
+
 a, h1 {
     color: var(--text-light);
 }
@@ -60,6 +65,10 @@ main {
 }
 
 @media screen and (min-width: 700px) {
+    body {
+        max-width: 1000px;
+    }
+
     .gallery {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -67,6 +76,10 @@ main {
 }
 
 @media screen and (min-width: 1000px) {
+    body {
+        max-width: 1800px;
+    }
+
     .gallery {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
