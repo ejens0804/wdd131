@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+:root {
+    --gold-color: #EFC69B;
+    --red-color: #AF1B3F;
+    --dark-color: #473144;
+    --text-dark: #473144;
+    --text-light: #ebebeb;
+    --body-font: Helvetica, Arial, sans-serif;
+    --Headline-font: "Lora", Impact, Serif;
+    }
+.nav-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fdf8f4;
+}
+header {
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+nav {
+    font-family: var(--body-font);
+    color: var(--dark-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--dark-color);
+    font-weight: bold;
+}
+main {
+    font-family: var(--body-font);
+    display: flex;
+    justify-content: center;
+    max-width: 1000px;
+    margin: auto;
+}
+h1 {
+    font-family: var(--Headline-font);
+    color: var(--dark-color);
+}
+h2 {
+    font-family: var(--Headline-font);
+    color: var(--red-color);
+}
+ul {
+    padding: 0;
+    list-style: none;
+}
+ul li a {
+    color: var(--red-color);
+}
+.book-list {
+    flex: 2;
+    margin-right: 20px;
+}
+.book {
+    display: flex;
+    background: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+.book-info {
+    text-align: right;
+    margin-right: 20px;
+    color: #666;
+}
+.book-content img {
+    width: 60%;
+    height: auto;
+    margin-right: 15px;
+    justify-content: center;
+    align-items: center;
+}
+.filters {
+    flex: 1;
+    background: #f8f1eb;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
