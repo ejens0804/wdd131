@@ -74,6 +74,8 @@ ul li a {
     text-align: right;
     margin-right: 20px;
     color: #666;
+    border-right: 1px solid #EFC69B;
+    padding: 10px;
 }
 .book-content img {
     width: 60%;
@@ -87,4 +89,7 @@ ul li a {
     background: #f8f1eb;
     padding: 20px;
     border: 1px solid #ddd;
+}
+.date {
+    font-size: 20px;
 }
