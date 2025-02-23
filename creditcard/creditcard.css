@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    padding: 1rem;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 2rem;
+  }
+
+  .total {
+    font-family: monospace;
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+  }
+
+  input {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+
+  input[name="card-number"] {
+    width: 100%;
+    font-family: monospace;
+  }
+
+  .card-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .expiration-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .expiration-inputs input {
+    width: 100%;
+  }
+
+  .card-back {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .magnetic-stripe {
+    background: #333;
+    height: 2.5rem;
+    margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+  }
+
+  .cvv-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .cvv-input {
+    width: 60px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  img.card-image {
+    height: 55px;
+  }
