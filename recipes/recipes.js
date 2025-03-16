@@ -1,90 +1,131 @@
-// Function to generate star rating HTML
-function generateRatingStars(rating) {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    
-    let starsHTML = `<span class="rating" role="img" aria-label="Rating: ${rating} out of 5 stars">`;
-    
-    // Add full stars
-    for (let i = 0; i < fullStars; i++) {
-        starsHTML += `<span aria-hidden="true" class="icon-star">⭐</span>`;
-    }
-    
-    // Add half star if needed
-    if (halfStar) {
-        starsHTML += `<span aria-hidden="true" class="icon-star-half">⭐</span>`;
-    }
-    
-    // Add empty stars
-    for (let i = 0; i < emptyStars; i++) {
-        starsHTML += `<span aria-hidden="true" class="icon-star-empty">☆</span>`;
-    }
-    
-    starsHTML += `</span>`;
-    return starsHTML;
+// Function to generate a random number between 0 and num-1
+function getRandomNumber(num) {
+    return Math.floor(Math.random() * num);
 }
 
-// Function to display recipes
-function displayRecipes(recipeList) {
+// Function to get a random entry from a list
+function getRandomListEntry(list) {
+    const randomIndex = getRandomNumber(list.length);
+    return list[randomIndex];
+}
+
+// Function to generate star rating HTML
+function ratingTemplate(rating) {
+    // begin building an html string using the ratings HTML as a model
+    let html = `<span class="rating" role="img" aria-label="Rating: ${rating} out of 5 stars">`;
+    
+    // our ratings are always out of 5, so create a for loop from 1 to 5
+    for (let i = 1; i <= 5; i++) {
+        // check to see if the current index of the loop is less than or equal to our rating
+        if (i <= rating) {
+            // if so then output a filled star
+            html += `<span aria-hidden="true" class="icon-star">⭐</span>`;
+        } else {
+            // else output an empty star
+            html += `<span aria-hidden="true" class="icon-star-empty">☆</span>`;
+        }
+    }
+    
+    // after the loop, add the closing tag to our string
+    html += `</span>`;
+    // return the html string
+    return html;
+}
+
+// Function to generate tags HTML
+function tagsTemplate(tags) {
+    // initialize empty HTML string
+    let html = '';
+    
+    // loop through the tags list and transform the strings to HTML
+    tags.forEach(tag => {
+        html += `<span class="tag">${tag}</span>`;
+    });
+    
+    return html;
+}
+
+// Function for recipe template
+function recipeTemplate(recipe) {
+    return `<article class="recipe-card">
+        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
+        <div class="recipe-content">
+            <div class="recipe-tags">
+                ${tagsTemplate(recipe.tags)}
+            </div>
+            <h2 class="recipe-title">${recipe.name}</h2>
+            ${ratingTemplate(recipe.rating)}
+            <p class="recipe-description">
+                ${recipe.description}
+            </p>
+        </div>
+    </article>`;
+}
+
+// Function to render recipes to the page
+function renderRecipes(recipeList) {
+    // get the element we will output the recipes into
     const mainElement = document.querySelector('main');
+    
+    // clear the current content
     mainElement.innerHTML = '';
     
+    // use the recipeTemplate function to transform our recipe objects into recipe HTML strings
     recipeList.forEach(recipe => {
-        // Create tags HTML
-        let tagsHTML = '';
-        recipe.tags.forEach(tag => {
-            tagsHTML += `<span class="tag">${tag}</span>`;
-        });
-        
-        // Create recipe card HTML
-        const recipeCard = `
-            <article class="recipe-card">
-                <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
-                <div class="recipe-content">
-                    <div class="recipe-tags">
-                        ${tagsHTML}
-                    </div>
-                    <h2 class="recipe-title">${recipe.name}</h2>
-                    ${generateRatingStars(recipe.rating)}
-                    <p class="recipe-description">${recipe.description}</p>
-                </div>
-            </article>
-        `;
-        
-        mainElement.innerHTML += recipeCard;
+        mainElement.innerHTML += recipeTemplate(recipe);
     });
 }
 
-// Function to handle search
-function handleSearch(event) {
-    event.preventDefault();
-    const searchTerm = document.querySelector('.search-form input').value.toLowerCase();
+// Function to filter recipes based on a query
+function filterRecipes(query) {
+    if (!query) {
+        return recipes;
+    }
     
+    // Filter the recipes based on the query
     const filteredRecipes = recipes.filter(recipe => {
+        // Check if query appears in name, description, or tags
         return (
-            recipe.name.toLowerCase().includes(searchTerm) ||
-            recipe.description.toLowerCase().includes(searchTerm) ||
-            recipe.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            recipe.name.toLowerCase().includes(query) ||
+            recipe.description.toLowerCase().includes(query) ||
+            recipe.tags.some(tag => tag.toLowerCase().includes(query)) ||
+            recipe.recipeIngredient.some(ingredient => ingredient.toLowerCase().includes(query))
         );
     });
     
-    displayRecipes(filteredRecipes);
+    // Sort alphabetically by name
+	return filteredRecipes.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+}
+``
+// Function to handle search
+function searchHandler(event) {
+    event.preventDefault();
+    
+    // Get the search term
+    const searchTerm = document.querySelector('.search-form input').value.toLowerCase();
+    
+    // Filter and render recipes
+    const filteredRecipes = filterRecipes(searchTerm);
+    renderRecipes(filteredRecipes);
 }
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', () => {
-    // Display all recipes initially
-    displayRecipes(recipes);
+function init() {
+    // Get a random recipe
+    const recipe = getRandomListEntry(recipes);
     
-    // Add event listener to the search form
+    // Render the recipe
+    renderRecipes([recipe]);
+    
+    // Add event listener for search form
     const searchForm = document.querySelector('.search-form');
-    searchForm.addEventListener('submit', handleSearch);
-});
+    searchForm.addEventListener('submit', searchHandler);
+}
 
+// Call init function when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
 
-
-
+// Recipe data already present in the file
 const recipes = [
 	{
 		author: 'Provo High Culinary Students',
@@ -287,82 +328,5 @@ const recipes = [
 		],
 		recipeYield: '8 dozen',
 		rating: 5
-	},
-	{
-		author: 'Ester Kocht',
-		url: 'https://www.esterkocht.com/german-gooseberry-cake-with-vanilla-cream-and-crumble/',
-		isBasedOn: '',
-		cookTime: '45min',
-		datePublished: '2023-10-10',
-		tags: ['dessert', 'German'],
-		description:
-			"This gooseberry cake with crumble is easy to follow, a bit tart and not too sweet. Made up of a cake base, filled with fresh gooseberries and vanilla cream and finished off with crumble that's flavored with vanilla. A must have recipe for gooseberry lovers!!",
-		image: './images/german-gooseberry-cake.jpg',
-		recipeIngredient: [
-			'For the Cake Base:',
-			'180 g (1 ½ cups/ 6.3 oz) plain flour',
-			'2 medium eggs',
-			'100 g (3 ½ oz) butter soft',
-			'2 teaspoons vanilla sugar',
-			'60 g (about 1/3 cup/ 2.1 oz) sugar',
-			'2 ½ teaspoons baking powder',
-			'For the Vanilla Cream:',
-			'250 ml (1 cup/ 8 ½ fl. oz) milk',
-			'40 (⅓ cup/ 1.4 oz) corn flour cornstarch',
-			'2 tablespoons sugar',
-			'1 tablespoon vanilla sugar',
-			'200 g (7.1 oz) sour cream',
-			'For the struesel (crumble):',
-			'250 g (2 cups + 1 tablespoon/ 8.8 oz) plain flour (all purpose flour)',
-			'2 tablespoons vanilla sugar',
-			'175 g (about ¾ cup/ 6.2 oz) butter soft',
-			'100 g (½ cup/ 3 ½ oz) sugar',
-			'You will also need:',
-			'550 g (1.2 lbs) gooseberries washed and stems and brown appendage removed OR',
-			'550 g (1.2 lbs) raspberries'
-		],
-		name: 'Gooseberry cake with vanilla cream and crumble',
-		prepTime: '30 min',
-		recipeInstructions: [
-			'Combine the flour, butter, sugar and eggs in a bowl and beat with a whisk until you have a smooth dough. Transfer the batter to a 26 cm(10 inch) spring-form (or cake tin with removable base) lined with a parchment paper at the bottom and greased on the side. Smooth with a spoon or spatula and set aside.',
-			"In the same bowl that you've used to make the cake base combine sugar, butter and flour. Using your hands mix all the ingredients together until small crumbles start to form. Set aside as well. Then preheat the oven to 180 ° C (356 °F), with both top and bottom heat.",
-			'Now in a small pot combine milk, sugar and cornstarch (corn flour). Keep stirring constantly until it starts to bubble and has thickened. Remove from the heat and let cool for 2 to 3 minutes. In the meantime scatter gooseberries over the base. Add sour cream to the cream that you previously made and whisk. Spread the vanilla cream on top of the gooseberries and sprinkle the crumble evenly over the top and bake for 45 minutes or until the crumbles are lightly golden brown. Remove from the oven and let cool for few minutes. Serve it with whipped cream and enjoy!'
-		],
-		recipeYield: '12 servings',
-		rating: 5
-	},
-	{
-		author: 'AllRecipes',
-		url: 'https://www.allrecipes.com/recipe/12409/apple-crisp-ii/',
-		isBasedOn: '',
-		cookTime: '45min',
-		datePublished: '2023-10-10',
-		tags: ['dessert'],
-		description:
-			"This apple crisp recipe is a simple yet delicious fall dessert that's great served warm with vanilla ice cream.",
-		image: './images/apple-crisp.jpg',
-		recipeIngredient: [
-			'10 C apples, cored and sliced',
-			'1 C white sugar',
-			'1 Tbsp white flour',
-			'1 tsp ground cinnamon',
-			'3 Tbsp water',
-			'1 C rolled oats',
-			'1 C Flour',
-			'1 C Brown sugar',
-			'1/4 tsp baking powder',
-			'1/4 tsp baking soda',
-			'1/2 C butter, melted'
-		],
-		name: 'Apple Crisp',
-		prepTime: '30 min',
-		recipeInstructions: [
-			'Preheat the oven to 350 degrees F (175 degrees C).',
-			'Place sliced apples in a 9x13-inch baking dish. Mix white sugar, 1 tablespoon flour, and cinnamon together; sprinkle over apples. Pour water evenly over apples.',
-			'Combine oats, 1 cup flour, brown sugar, baking powder, and baking soda in a large bowl. Add melted butter and mix with a fork until crumbly; sprinkle evenly over apple mixture.',
-			'Bake in the preheated oven until top is golden brown and apples are bubbling around the edges, about 45 minutes.'
-		],
-		recipeYield: '12 servings',
-		rating: 4
 	}
-]
+];
