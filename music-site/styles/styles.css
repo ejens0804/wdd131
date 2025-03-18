@@ -98,6 +98,7 @@
   footer a {
     color: #fff;
     text-decoration: none;
+    margin: 0 5%;
   }
   
   /* Recommendations Form */
@@ -136,6 +137,7 @@
   .custom-audio::-webkit-media-controls-mute-button {
     filter: invert(100%);
   }
+
 
 
   /* Responsive */
