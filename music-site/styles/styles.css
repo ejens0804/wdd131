@@ -43,6 +43,10 @@
     padding: 2rem;
     text-align: center;
   }
+
+  .recommendations {
+    background-color: #f4f4f4;
+  }
   
   .hero img {
     max-width: 80%;
@@ -115,6 +119,9 @@
   
   #recommendation-results {
     margin-top: 2rem;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 10px;
   }
   
 
@@ -138,6 +145,12 @@
     filter: invert(100%);
   }
 
+  
+  .recommendations {
+    background-color: #f4f4f4;
+    padding: 2rem;
+    text-align: center;
+  }
 
 
   /* Responsive */
